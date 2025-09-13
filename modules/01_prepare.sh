@@ -4,6 +4,7 @@ set -euo pipefail
 source "$(dirname "$0")/../libs/common.sh"
 
 PACKAGES=(curl ufw jq acl fail2ban)
+
 UFW_TCP_PORTS=(22 80 443 3478 5349)
 UFW_UDP_PORTS=(3478 5349 49152:65535)
 MATRIX_DIRS=(synapse coturn postgres element nginx)
@@ -32,6 +33,8 @@ configure_firewall() {
 configure_fail2ban() {
     log "Configuring fail2ban"
     cat >/etc/fail2ban/jail.local <<'JAIL'
+
+
 [DEFAULT]
 bantime = 24h
 findtime = 1h
@@ -41,6 +44,7 @@ maxretry = 3
 enabled = true
 logpath = /var/log/auth.log
 JAIL
+
     systemctl enable fail2ban
     systemctl restart fail2ban
 }
@@ -87,3 +91,4 @@ main() {
 }
 
 main "$@"
+
